@@ -53,32 +53,46 @@ The installer will automatically:
 - Select a folder containing your images
 - Images will be loaded automatically
 
+
+
+![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview1.webp)
+
 #### Step 2: Annotate Objects
 - **Left Click** 🖱️ - Add positive points (green) to mark objects
 - **Right Click** 🖱️ - Add negative points (red) to exclude areas
 - The annotation count will update in real-time
 
+
+
+
+
 #### Step 3: Batch Process
-- Click **"Start Batch Segmentation"** 🚀
+- Click **"🚀Start Batch Segmentation"** 
 - SWEET will process all images in the folder
 - Progress will be shown during processing
+
+
+
+![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview3.webp)
+
+![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview4.webp)
 
 #### Step 4: View Results
 - **Segmentation Images**: Masked overlay images saved in the same directory
   - Original images with green segmentation masks
   - Use for accuracy verification or paper figures
+
+
+ 
+![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview5.webp) ![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview6.webp)
+
 - **CSV Results**: `segmentation_results.csv` file containing:
   - Image names
   - Coverage percentage (area ratio)
   - Confidence scores
   - Annotation point counts
 
-![alt text](image.png)
-#### Example Output
-```csv
-image_name,coverage_ratio,confidence,positive_points,negative_points
-SW_0038_TRANS.tif,17.3879,0.989792,5,2
-```
+
 
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
