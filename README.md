@@ -222,28 +222,7 @@ SWEET 是一个智能工具，帮助您：
 - 🔧 **Windows错误？** 安装 [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 - 📂 **权限拒绝？** 右键 → 以管理员身份运行
 
-### 📁 文件结构
 
-```
-SWEET/
-├── install.bat          # Windows安装器（双击）
-├── install.command      # Linux/macOS安装器（双击）
-├── install.py           # 核心安装脚本
-├── SWEET_Windows.bat    # Windows启动器（双击）
-├── SWEET_Linux.sh       # Linux启动器（双击）
-├── SWEET_macOS.command  # macOS启动器（双击）
-├── src/                 # 源代码
-├── python/              # 虚拟环境（自动创建）
-├── models/              # AI模型（自动下载）
-└── logs/                # 调试日志
-```
-
-### 🚫 无需命令行！
-
-所有操作都可通过双击完成：
-- ✅ 双击安装器进行安装
-- ✅ 双击启动器运行程序
-- ✅ 无需终端或命令提示符
 
 ---
 
