@@ -96,7 +96,6 @@ The installer will automatically:
 
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
-- **S**: Save comparison image
 - **A/D**: Previous/Next image
 - **C**: Clear annotations
 
@@ -196,7 +195,6 @@ SWEET 是一个智能工具，帮助您：
 
 ### 🎮 快捷键
 - **空格键**: 生成掩码
-- **S**: 保存对比图像
 - **A/D**: 上一张/下一张图像
 - **C**: 清除标注
 
