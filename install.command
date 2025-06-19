@@ -73,7 +73,7 @@ if command_exists python3; then
         
         if [ "$python3_major" -eq 3 ] && [ "$python3_minor" -ge 8 ]; then
             echo "Found Python $python3_version, starting installation..."
-            python3 install.py
+            python3 src/install.py
             exit $?
         else
             echo "Python $python3_version found, but need Python 3.8+"
@@ -88,7 +88,7 @@ elif command_exists python; then
         
         if [ "$python_major" -eq 3 ] && [ "$python_minor" -ge 8 ]; then
             echo "Found Python $python_version, starting installation..."
-            python install.py
+            python src/install.py
             exit $?
         else
             echo "Python $python_version found, but need Python 3.8+"
@@ -114,10 +114,10 @@ while true; do
                 
                 # Try again with python3
                 if command_exists python3; then
-                    python3 install.py
+                    python3 src/install.py
                     exit $?
                 elif command_exists python; then
-                    python install.py
+                    python src/install.py
                     exit $?
                 else
                     echo "Python installation completed but command not found."

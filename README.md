@@ -1,5 +1,3 @@
-# SWEET
-SWEET - SAM Widget for Edge Evaluation Tool
 # SWEET - SAM Widget for Edge Evaluation Tool
 
 🎯 AI-powered image segmentation and area calculation using Segment Anything Model (SAM)
@@ -75,6 +73,12 @@ The installer will automatically:
   - Confidence scores
   - Annotation point counts
 
+![alt text](image.png)
+#### Example Output
+```csv
+image_name,coverage_ratio,confidence,positive_points,negative_points
+SW_0038_TRANS.tif,17.3879,0.989792,5,2
+```
 
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
@@ -175,8 +179,11 @@ SWEET 是一个智能工具，帮助您：
   - 置信度分数
   - 标注点数量
 
-
-
+#### 输出示例
+```csv
+image_name,coverage_ratio,confidence,positive_points,negative_points
+SW_0038_TRANS.tif,17.3879,0.989792,5,2
+```
 
 ### 🎮 快捷键
 - **空格键**: 生成掩码

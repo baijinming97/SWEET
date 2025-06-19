@@ -24,7 +24,7 @@ REM Try python command first
 python --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo Found Python, starting installation...
-    python install.py
+    python src\install.py
     goto :end
 )
 
@@ -32,7 +32,7 @@ REM Try python3 command
 python3 --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo Found Python3, starting installation...
-    python3 install.py
+    python3 src\install.py
     goto :end
 )
 
@@ -40,7 +40,7 @@ REM Try py launcher
 py -3 --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo Found Python via py launcher, starting installation...
-    py -3 install.py
+    py -3 src\install.py
     goto :end
 )
 
@@ -88,19 +88,19 @@ call refreshenv >nul 2>&1
 REM Try different Python commands again
 python --version >nul 2>&1
 if %errorlevel% equ 0 (
-    python install.py
+    python src\install.py
     goto :end
 )
 
 python3 --version >nul 2>&1
 if %errorlevel% equ 0 (
-    python3 install.py
+    python3 src\install.py
     goto :end
 )
 
 py -3 --version >nul 2>&1
 if %errorlevel% equ 0 (
-    py -3 install.py
+    py -3 src\install.py
     goto :end
 )
 
