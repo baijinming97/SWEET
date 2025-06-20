@@ -53,49 +53,36 @@ The installer will automatically:
 - Select a folder containing your images
 - Images will be loaded automatically
 
-
-
-![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview1.webp)
-
 #### Step 2: Annotate Objects
 - **Left Click** 🖱️ - Add positive points (green) to mark objects
 - **Right Click** 🖱️ - Add negative points (red) to exclude areas
 - The annotation count will update in real-time
 
-
-
-
-
 #### Step 3: Batch Process
-- Click **"🚀Start Batch Segmentation"** 
+- Click **"Start Batch Segmentation"** 🚀
 - SWEET will process all images in the folder
 - Progress will be shown during processing
-
-
-
-![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview3.webp)
-
-![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview4.webp)
 
 #### Step 4: View Results
 - **Segmentation Images**: Masked overlay images saved in the same directory
   - Original images with green segmentation masks
   - Use for accuracy verification or paper figures
-
-
- 
-![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview5.webp) ![Load Images](https://github.com/baijinming97/SWEET/blob/main/screenshot/preview6.webp)
-
 - **CSV Results**: `segmentation_results.csv` file containing:
   - Image names
   - Coverage percentage (area ratio)
   - Confidence scores
   - Annotation point counts
 
-
+![alt text](image.png)
+#### Example Output
+```csv
+image_name,coverage_ratio,confidence,positive_points,negative_points
+SW_0038_TRANS.tif,17.3879,0.989792,5,2
+```
 
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
+- **S**: Save comparison image
 - **A/D**: Previous/Next image
 - **C**: Clear annotations
 
@@ -192,9 +179,15 @@ SWEET 是一个智能工具，帮助您：
   - 置信度分数
   - 标注点数量
 
+#### 输出示例
+```csv
+image_name,coverage_ratio,confidence,positive_points,negative_points
+SW_0038_TRANS.tif,17.3879,0.989792,5,2
+```
 
 ### 🎮 快捷键
 - **空格键**: 生成掩码
+- **S**: 保存对比图像
 - **A/D**: 上一张/下一张图像
 - **C**: 清除标注
 
@@ -222,7 +215,28 @@ SWEET 是一个智能工具，帮助您：
 - 🔧 **Windows错误？** 安装 [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 - 📂 **权限拒绝？** 右键 → 以管理员身份运行
 
+### 📁 文件结构
 
+```
+SWEET/
+├── install.bat          # Windows安装器（双击）
+├── install.command      # Linux/macOS安装器（双击）
+├── install.py           # 核心安装脚本
+├── SWEET_Windows.bat    # Windows启动器（双击）
+├── SWEET_Linux.sh       # Linux启动器（双击）
+├── SWEET_macOS.command  # macOS启动器（双击）
+├── src/                 # 源代码
+├── python/              # 虚拟环境（自动创建）
+├── models/              # AI模型（自动下载）
+└── logs/                # 调试日志
+```
+
+### 🚫 无需命令行！
+
+所有操作都可通过双击完成：
+- ✅ 双击安装器进行安装
+- ✅ 双击启动器运行程序
+- ✅ 无需终端或命令提示符
 
 ---
 
