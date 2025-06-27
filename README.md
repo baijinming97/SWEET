@@ -115,6 +115,10 @@ The installer will automatically:
 - 📈 **Export Results** - CSV files for data analysis
 - 🌐 **Multi-language** - English/Chinese support
 
+- #### 🎯 Precision Mode
+- ⚡**Default Mode**  - Images are resized for faster processing (usually sufficient for most cases)
+- 🔬**Precision Mode**  - Uses original full resolution for maximum accuracy (slower but more precise)
+
 ### 💻 System Requirements
 
 - **OS:** Windows 10+, Ubuntu 18.04+, macOS 10.15+
@@ -241,6 +245,10 @@ SWEET 是一个智能工具，帮助您：
 - 🖼️ **批量处理** - 一次处理整个文件夹
 - 📈 **导出结果** - CSV文件便于数据分析
 - 🌐 **多语言支持** - 中英文界面
+
+- #### 🎯 精确模式
+- ⚡**默认模式**  - 图像会被压缩以加快处理速度（通常精度已经足够）
+- 🔬**精确模式**  - 使用原始完整分辨率以获得最高精度（速度较慢但更精确）
 
 ### 💻 系统要求
 
