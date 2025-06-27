@@ -25,7 +25,7 @@ Perfect for:
 ### 📥 Download
 
 <div align="center">
-  <img src="https://private-user-images.githubusercontent.com/104256906/459921328-fb4db1a6-fd7b-4341-8c54-443052f3cc44.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTEwMjUxNjksIm5iZiI6MTc1MTAyNDg2OSwicGF0aCI6Ii8xMDQyNTY5MDYvNDU5OTIxMzI4LWZiNGRiMWE2LWZkN2ItNDM0MS04YzU0LTQ0MzA1MmYzY2M0NC5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyN1QxMTQ3NDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NzI0YWMzNDMwMDYzYjFiMzAzMjUxM2U5YzQ5ODdlNTM1NWU1OTg1MjQ3NmZlMjA2OWEzYzg1OWFlMTBjZDYyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.AiwViW77x0-_zEmgHLNCQr7tS1b6x07XQu_wI8fHDp4" width="1600" alt="Download SWEET">
+  <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
 </div>
 
 ### 🚀 Quick Start
