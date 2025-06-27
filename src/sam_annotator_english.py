@@ -954,13 +954,36 @@ class WoundAnnotatorUI(QMainWindow):
         
     def load_directory(self):
         """Load directory"""
-        # User selecting directory
+        # Check if there are unsegmented marked images
+        if self.image_annotations:
+            # Check if any segmentation has been done
+            has_segmented = any(
+                os.path.exists(img_path.replace('.tif', '_segmented.png'))
+                for img_path in self.image_annotations.keys()
+            )
+            
+            if not has_segmented:
+                # No segmentation done yet, warn user
+                reply = QMessageBox.warning(
+                    self, "Warning", 
+                    f"You have {len(self.image_annotations)} marked images that haven't been segmented.\n\n"
+                    "Switching directories will lose these marks. Continue?",
+                    QMessageBox.Yes | QMessageBox.No
+                )
+                
+                if reply != QMessageBox.Yes:
+                    return
         
+        # User selecting directory
         default_dir = os.path.join(os.getcwd(), "data")
         directory = QFileDialog.getExistingDirectory(self, "Select Directory", default_dir)
         if not directory:
             return
             
+        # Clear previous annotations to prevent cross-contamination
+        self.image_annotations.clear()
+        self.results_data.clear()
+        
         # Save data directory path
         self.data_directory = directory
         logger.info(f"Selected directory: {directory}")
@@ -1216,11 +1239,17 @@ class WoundAnnotatorUI(QMainWindow):
         try:
             df = pd.DataFrame(results)
             
+            # Get directory name for suffix
+            dir_suffix = ""
+            if self.data_directory:
+                dir_name = os.path.basename(self.data_directory)
+                dir_suffix = f"_{dir_name}"
+            
             # Save to data directory
             if self.data_directory:
-                output_file = os.path.join(self.data_directory, "segmentation_results.csv")
+                output_file = os.path.join(self.data_directory, f"segmentation_results{dir_suffix}.csv")
             else:
-                output_file = "segmentation_results.csv"
+                output_file = f"segmentation_results{dir_suffix}.csv"
                 
             df.to_csv(output_file, index=False, encoding='utf-8-sig')
             logger.info(f"Batch segmentation results saved to: {output_file}")
