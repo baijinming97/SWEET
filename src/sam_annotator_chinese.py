@@ -954,13 +954,36 @@ class WoundAnnotatorUI(QMainWindow):
         
     def load_directory(self):
         """加载目录"""
-        # 用户选择加载目录
+        # 检查是否有未分割的标记图片
+        if self.image_annotations:
+            # 检查是否已经进行过分割
+            has_segmented = any(
+                os.path.exists(img_path.replace('.tif', '_segmented.png'))
+                for img_path in self.image_annotations.keys()
+            )
+            
+            if not has_segmented:
+                # 还没有进行分割，提醒用户
+                reply = QMessageBox.warning(
+                    self, "警告", 
+                    f"您有 {len(self.image_annotations)} 张已标记但未分割的图片。\n\n"
+                    "切换目录将丢失这些标记。是否继续？",
+                    QMessageBox.Yes | QMessageBox.No
+                )
+                
+                if reply != QMessageBox.Yes:
+                    return
         
+        # 用户选择加载目录
         default_dir = os.path.join(os.getcwd(), "data")
         directory = QFileDialog.getExistingDirectory(self, "选择目录", default_dir)
         if not directory:
             return
             
+        # 清除之前的标记，防止串扰
+        self.image_annotations.clear()
+        self.results_data.clear()
+        
         # 保存数据目录路径
         self.data_directory = directory
         logger.info(f"选择了目录: {directory}")
@@ -1216,11 +1239,17 @@ class WoundAnnotatorUI(QMainWindow):
         try:
             df = pd.DataFrame(results)
             
+            # 获取目录名作为后缀
+            dir_suffix = ""
+            if self.data_directory:
+                dir_name = os.path.basename(self.data_directory)
+                dir_suffix = f"_{dir_name}"
+            
             # 保存到数据目录中
             if self.data_directory:
-                output_file = os.path.join(self.data_directory, "segmentation_results.csv")
+                output_file = os.path.join(self.data_directory, f"segmentation_results{dir_suffix}.csv")
             else:
-                output_file = "segmentation_results.csv"
+                output_file = f"segmentation_results{dir_suffix}.csv"
                 
             df.to_csv(output_file, index=False, encoding='utf-8-sig')
             logger.info(f"批量分割结果保存到: {output_file}")
