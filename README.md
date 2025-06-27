@@ -22,6 +22,12 @@ Perfect for:
 - 📸 Image processing
 - 📊 Data visualization
 
+### 📥 Download
+
+<div align="center">
+  <img src="https://private-user-images.githubusercontent.com/104256906/459921328-fb4db1a6-fd7b-4341-8c54-443052f3cc44.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTEwMjUxNjksIm5iZiI6MTc1MTAyNDg2OSwicGF0aCI6Ii8xMDQyNTY5MDYvNDU5OTIxMzI4LWZiNGRiMWE2LWZkN2ItNDM0MS04YzU0LTQ0MzA1MmYzY2M0NC5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyN1QxMTQ3NDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NzI0YWMzNDMwMDYzYjFiMzAzMjUxM2U5YzQ5ODdlNTM1NWU1OTg1MjQ3NmZlMjA2OWEzYzg1OWFlMTBjZDYyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.AiwViW77x0-_zEmgHLNCQr7tS1b6x07XQu_wI8fHDp4" width="1600" alt="Download SWEET">
+</div>
+
 ### 🚀 Quick Start
 
 #### Installation (One-Click Install)
@@ -53,6 +59,10 @@ The installer will automatically:
 - Select a folder containing your images
 - Images will be loaded automatically
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1600" alt="Load Images">
+</div>
+
 #### Step 2: Annotate Objects
 - **Left Click** 🖱️ - Add positive points (green) to mark objects
 - **Right Click** 🖱️ - Add negative points (red) to exclude areas
@@ -63,22 +73,32 @@ The installer will automatically:
 - SWEET will process all images in the folder
 - Progress will be shown during processing
 
+<div align="left">
+  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="Batch Process">
+</div>
+
 #### Step 4: View Results
 - **Segmentation Images**: Masked overlay images saved in the same directory
   - Original images with green segmentation masks
   - Use for accuracy verification or paper figures
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="500" alt="Result 1">
+  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="500" alt="Result 2">
+</div>
+
 - **CSV Results**: `segmentation_results.csv` file containing:
   - Image names
   - Coverage percentage (area ratio)
   - Confidence scores
   - Annotation point counts
 
-![alt text](image.png)
+
+
 #### Example Output
-```csv
-image_name,coverage_ratio,confidence,positive_points,negative_points
-SW_0038_TRANS.tif,17.3879,0.989792,5,2
-```
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/b4599776-2b7f-43b1-8d97-2288cf4038da" width="60" alt="CSV View">  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
+</div>
 
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
@@ -128,6 +148,12 @@ SWEET 是一个智能工具，帮助您：
 - 📸 图像处理
 - 📊 数据可视化
 
+### 📥 下载
+
+<div align="center">
+  <img src="https://private-user-images.githubusercontent.com/104256906/459921328-fb4db1a6-fd7b-4341-8c54-443052f3cc44.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTEwMjUxNjksIm5iZiI6MTc1MTAyNDg2OSwicGF0aCI6Ii8xMDQyNTY5MDYvNDU5OTIxMzI4LWZiNGRiMWE2LWZkN2ItNDM0MS04YzU0LTQ0MzA1MmYzY2M0NC5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyN1QxMTQ3NDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NzI0YWMzNDMwMDYzYjFiMzAzMjUxM2U5YzQ5ODdlNTM1NWU1OTg1MjQ3NmZlMjA2OWEzYzg1OWFlMTBjZDYyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.AiwViW77x0-_zEmgHLNCQr7tS1b6x07XQu_wI8fHDp4" width="1600" alt="Download SWEET">
+</div>
+
 ### 🚀 快速开始
 
 #### 安装（一键安装）
@@ -159,6 +185,10 @@ SWEET 是一个智能工具，帮助您：
 - 选择包含图像的文件夹
 - 图像将自动加载
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1600" alt="Load Images">
+</div>
+
 #### 步骤2：标注对象
 - **鼠标左键** 🖱️ - 添加正向标注点（绿色）标记目标对象
 - **鼠标右键** 🖱️ - 添加负向标注点（红色）排除区域
@@ -169,21 +199,33 @@ SWEET 是一个智能工具，帮助您：
 - SWEET将处理文件夹中的所有图像
 - 处理过程中会显示进度
 
+<div align="left">
+  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="Batch Process">
+</div>
+
 #### 步骤4：查看结果
 - **分割图像**：在同一目录下保存掩码叠加图像
   - 原始图像上叠加绿色分割掩码
   - 可用于准确性验证或论文配图
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="500" alt="Result 1">
+  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="500" alt="Result 2">
+</div>
+
 - **CSV结果**：生成 `segmentation_results.csv` 文件，包含：
   - 图像名称
   - 覆盖百分比（面积比）
   - 置信度分数
   - 标注点数量
 
+
 #### 输出示例
-```csv
-image_name,coverage_ratio,confidence,positive_points,negative_points
-SW_0038_TRANS.tif,17.3879,0.989792,5,2
-```
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/b4599776-2b7f-43b1-8d97-2288cf4038da" width="60" alt="CSV View">  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
+</div>
+
+
 
 ### 🎮 快捷键
 - **空格键**: 生成掩码
