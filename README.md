@@ -134,6 +134,20 @@ The installer will automatically:
 - 🔧 **Windows error?** Install [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 - 📂 **Permission denied?** Right-click → Run as Administrator
 
+
+
+### 📚 How to Cite
+
+### Citation in Methods Section
+
+Image segmentation and area calculation were performed using SWEET v1.0 [1], an open-source tool based on the Segment Anything Model (SAM) [2]. The software enables automated batch segmentation through interactive point annotations and calculates the percentage of segmented regions relative to the total image area.
+
+#### References
+[1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
+
+[2] A. Kirillov et al., "Segment Anything," in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 4015-4026.
+
+
 ---
 
 <a name="chinese"></a>
@@ -155,7 +169,7 @@ SWEET 是一个智能工具，帮助您：
 ### 📥 下载
 
 <div align="center">
-  <img src="https://private-user-images.githubusercontent.com/104256906/459921328-fb4db1a6-fd7b-4341-8c54-443052f3cc44.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTEwMjUxNjksIm5iZiI6MTc1MTAyNDg2OSwicGF0aCI6Ii8xMDQyNTY5MDYvNDU5OTIxMzI4LWZiNGRiMWE2LWZkN2ItNDM0MS04YzU0LTQ0MzA1MmYzY2M0NC5qcGc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNjI3JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDYyN1QxMTQ3NDlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00NzI0YWMzNDMwMDYzYjFiMzAzMjUxM2U5YzQ5ODdlNTM1NWU1OTg1MjQ3NmZlMjA2OWEzYzg1OWFlMTBjZDYyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.AiwViW77x0-_zEmgHLNCQr7tS1b6x07XQu_wI8fHDp4" width="1600" alt="Download SWEET">
+  <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
 </div>
 
 ### 🚀 快速开始
@@ -287,6 +301,18 @@ SWEET/
 - ✅ 双击安装器进行安装
 - ✅ 双击启动器运行程序
 - ✅ 无需终端或命令提示符
+
+
+### 📚 如何引用
+
+### 方法部分引用
+
+图像分割和面积计算使用SWEET v1.0 [1]完成，该工具基于Segment Anything Model (SAM) [2]。软件通过交互式标注点实现自动批量分割，并计算分割区域占图像总面积的百分比。
+
+#### 参考文献
+[1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
+
+[2] A. Kirillov et al., "Segment Anything," in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 4015-4026.
 
 ---
 
