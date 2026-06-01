@@ -9,6 +9,7 @@ from qt_bootstrap import configure_qt_plugins
 
 configure_qt_plugins()
 
+from mask_prompt_utils import apply_negative_point_exclusions, rank_prompt_masks
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QHBoxLayout, QPushButton, QLabel, QFileDialog,
                              QMessageBox, QProgressBar, QProgressDialog, QDialog)
@@ -290,9 +291,21 @@ class SAMModelWrapper:
                 multimask_output=True,
             )
             
-            best_mask_idx = np.argmax(scores)
+            best_mask_idx, adjusted_scores = rank_prompt_masks(
+                masks,
+                scores,
+                input_points,
+                input_labels,
+            )
             best_mask = masks[best_mask_idx]
             best_score = scores[best_mask_idx]
+            if len(negative_points) > 0:
+                logger.debug(
+                    "Mask scores raw=%s adjusted=%s selected=%d",
+                    np.round(scores, 4).tolist(),
+                    np.round(adjusted_scores, 4).tolist(),
+                    best_mask_idx,
+                )
             
             # Apply largest connected component filtering
             if SAM_AVAILABLE:
@@ -310,7 +323,9 @@ class SAMModelWrapper:
                 resize_time = time.time() - resize_start
                 logger.debug(f"Mask resize time: {resize_time:.3f} seconds")
                 best_mask = best_mask_resized.astype(bool)
-            
+
+            best_mask = apply_negative_point_exclusions(best_mask, negative_points)
+
             predict_time = time.time() - start_time
             logger.info(f"SAM prediction completed, time taken: {predict_time:.3f} seconds, confidence: {best_score:.3f}")
             
@@ -630,6 +645,7 @@ class FastImageLabel(QLabel):
         
         self.current_mask = cv2.GaussianBlur(self.current_mask, (11, 11), 0)
         self.current_mask = (self.current_mask > 128).astype(np.uint8) * 255
+        self.current_mask = apply_negative_point_exclusions(self.current_mask, self.negative_points)
         self.show_mask = True
         self.cached_base_pixmap = None
         

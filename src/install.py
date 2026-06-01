@@ -650,7 +650,7 @@ class SWEETInstaller:
             "python_version": python_version,
             "torch_type": "GPU (CUDA)" if has_gpu else "CPU",
             "packages_count": packages_count,
-            "installer_version": "1.0"
+            "installer_version": "1.1"
         }
         
         try:
