@@ -5,8 +5,12 @@ import numpy as np
 import time
 import logging
 from datetime import datetime
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                             QHBoxLayout, QPushButton, QLabel, QFileDialog, 
+from qt_bootstrap import configure_qt_plugins
+
+configure_qt_plugins()
+
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                             QHBoxLayout, QPushButton, QLabel, QFileDialog,
                              QMessageBox, QProgressBar, QProgressDialog, QDialog)
 from PyQt5.QtCore import Qt, QPoint, pyqtSignal, QTimer, QThread, pyqtSlot
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QImage, QKeyEvent

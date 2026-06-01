@@ -11,7 +11,13 @@ echo.
 
 cd /d "%~dp0"
 
-set "VENV_PYTHON=python\Scripts\python.exe"
+set "APP_DIR=%~dp0"
+set "VENV_DIR=%APP_DIR%python"
+set "VENV_PYTHON=%VENV_DIR%\Scripts\python.exe"
+set "QT_ROOT=%VENV_DIR%\Lib\site-packages\PyQt5\Qt5"
+set "QT_PLUGIN_PATH=%QT_ROOT%\plugins"
+set "QT_QPA_PLATFORM_PLUGIN_PATH=%QT_PLUGIN_PATH%\platforms"
+set "PATH=%QT_ROOT%\bin;%PATH%"
 
 if not exist "%VENV_PYTHON%" (
     echo ERROR: Python environment not found!
@@ -21,6 +27,13 @@ if not exist "%VENV_PYTHON%" (
     echo.
     pause
     exit /b 1
+)
+
+if not exist "%QT_QPA_PLATFORM_PLUGIN_PATH%\qwindows.dll" (
+    echo WARNING: Qt Windows platform plugin was not found:
+    echo    %QT_QPA_PLATFORM_PLUGIN_PATH%\qwindows.dll
+    echo SWEET will still attempt to run...
+    echo.
 )
 
 echo Platform: Windows
