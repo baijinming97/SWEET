@@ -28,6 +28,19 @@ Perfect for:
   <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
 </div>
 
+### Release Notes
+
+**Latest version:** [SWEET v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1)
+
+**Previous version:** [SWEET v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+
+SWEET v1.1 includes:
+- Windows startup fix for PyQt5/Qt platform plugin detection, including the common `qwindows.dll` startup error after moving or extracting the project folder.
+- Stronger red negative-point behavior: red points now help re-rank SAM candidate masks and hard-exclude a small area around each red point from the final mask.
+- No extra SAM inference is added; the new red-point logic only uses SAM's existing candidate masks plus a lightweight OpenCV cleanup step.
+
+Use v1.1 for new downloads. v1.0 remains available for reproducibility.
+
 ### 🚀 Quick Start
 
 #### Installation (One-Click Install)
@@ -171,6 +184,19 @@ SWEET 是一个智能工具，帮助您：
 <div align="center">
   <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
 </div>
+
+### 版本说明
+
+**最新版:** [SWEET v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1)
+
+**旧版:** [SWEET v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+
+SWEET v1.1 更新内容:
+- 修复 Windows 下 PyQt5/Qt 平台插件路径识别问题，包括项目移动或解压到新目录后常见的 `qwindows.dll` 启动报错。
+- 增强红色负向点逻辑: 红点现在会参与 SAM 候选 mask 的重新评分，并在最终 mask 中强制排除红点周围的小区域。
+- 不会额外增加 SAM 推理次数；新增逻辑只使用 SAM 已返回的候选 mask，并做一次轻量 OpenCV mask 清理。
+
+新下载建议使用 v1.1。v1.0 仍保留，便于复现实验或回退。
 
 ### 🚀 快速开始
 
