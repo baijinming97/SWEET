@@ -140,7 +140,7 @@ The installer will automatically:
 
 ### Citation in Methods Section
 
-Image segmentation and area calculation were performed using SWEET v1.0 [1], an open-source tool based on the Segment Anything Model (SAM) [2]. The software enables automated batch segmentation through interactive point annotations and calculates the percentage of segmented regions relative to the total image area.
+Image segmentation and area calculation were performed using SWEET v1.1 [1], an open-source tool based on the Segment Anything Model (SAM) [2]. The software enables automated batch segmentation through interactive point annotations and calculates the percentage of segmented regions relative to the total image area.
 
 #### References
 [1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
@@ -307,7 +307,7 @@ SWEET/
 
 ### 方法部分引用
 
-图像分割和面积计算使用SWEET v1.0 [1]完成，该工具基于Segment Anything Model (SAM) [2]。软件通过交互式标注点实现自动批量分割，并计算分割区域占图像总面积的百分比。
+图像分割和面积计算使用SWEET v1.1 [1]完成，该工具基于Segment Anything Model (SAM) [2]。软件通过交互式标注点实现自动批量分割，并计算分割区域占图像总面积的百分比。
 
 #### 参考文献
 [1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
@@ -316,4 +316,4 @@ SWEET/
 
 ---
 
-**SWEET v1.0** - Making AI segmentation accessible to everyone 🎉
+**SWEET v1.1** - Making AI segmentation accessible to everyone 🎉
