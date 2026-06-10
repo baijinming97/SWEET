@@ -120,6 +120,15 @@ The installer will automatically:
   <img src="https://github.com/user-attachments/assets/b4599776-2b7f-43b1-8d97-2288cf4038da" width="60" alt="CSV View">  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
 </div>
 
+#### ⚙️ Advanced Settings (optional)
+Click **"⚙️ Advanced Settings"** in the right panel to fine-tune — changes apply on the next batch run:
+- **Contrast boost (CLAHE)** — helps low-contrast / grayscale images (default: on).
+- **Fill debris inside wound** — counts small cell debris in the gap as gap instead of carving around it (default: on).
+- **Edge / debris smoothing** — Light / Standard / Strong: how much small edge notches are smoothed.
+- **Red-point strength** — Gentle / Medium / Strong: how aggressively a right-click removes a wrong region.
+
+SWEET automatically uses the higher-quality `vit_l` model on NVIDIA GPUs and the fast `vit_b` model on CPU.
+
 ### 🎮 Keyboard Shortcuts
 - **Space**: Generate mask
 - **S**: Save comparison image
@@ -284,6 +293,15 @@ SWEET v1.1 更新内容:
 </div>
 
 
+
+#### ⚙️ 高级设置（可选）
+点击右侧面板的 **"⚙️ 高级设置"** 进行微调，参数在下次批量分割时生效：
+- **对比增强 (CLAHE)** —— 改善低对比/灰度图像（默认开启）。
+- **填充裂缝内碎片** —— 把裂缝内的小细胞碎片计入裂缝，而不是绕着它分割（默认开启）。
+- **边缘 / 碎片平滑** —— 轻 / 标准 / 强：边缘小缺口的平滑程度。
+- **红点强度** —— 弱 / 中 / 强：右键删除错误区域的力度。
+
+SWEET 会在 NVIDIA GPU 上自动使用更高质量的 `vit_l` 模型，无 GPU 时使用快速的 `vit_b` 模型。
 
 ### 🎮 快捷键
 - **空格键**: 生成掩码
