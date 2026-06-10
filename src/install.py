@@ -577,39 +577,40 @@ class SWEETInstaller:
             print(f"   ❌ Installation error: {e}")
             return False
     
-    def download_sam_model(self):
-        """Download SAM model file if not present"""
+    def download_sam_model(self, has_gpu=False):
+        """Download SAM model file(s) if not present.
+        Always fetch vit_b (the CPU fast path). Also fetch vit_l on NVIDIA-GPU
+        machines so SWEET can auto-use the higher-quality model there."""
         models_dir = self.root_dir / "models"
-        model_path = models_dir / "sam_vit_b_01ec64.pth"
-        
-        # Create models directory if it doesn't exist
         models_dir.mkdir(exist_ok=True)
-        
-        # Check if model already exists
-        if model_path.exists():
-            print("🤖 SAM model already exists")
-            print(f"   📍 Location: {model_path.absolute()}")
-            return True
-        
-        print("🤖 Downloading SAM model...")
-        print("   📝 This is required for the segmentation functionality")
-        
-        model_url = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth"
-        
-        try:
-            if self.download_file(model_url, model_path, "SAM model (375MB)"):
-                print(f"   ✅ SAM model downloaded successfully")
-                print(f"   📍 Saved to: {model_path.absolute()}")
-                return True
-            else:
-                print("   ❌ Failed to download SAM model")
-                print("   ⚠️  SWEET will run in fallback mode without this model")
-                return False
-                
-        except Exception as e:
-            print(f"   ❌ Error downloading SAM model: {e}")
-            print("   ⚠️  SWEET will run in fallback mode without this model")
-            return False
+
+        downloads = [("sam_vit_b_01ec64.pth",
+                      "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth",
+                      "SAM vit_b (375MB)")]
+        if has_gpu is True:  # CUDA only; select_model_path also gates on torch.cuda
+            downloads.append(("sam_vit_l_0b3195.pth",
+                              "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth",
+                              "SAM vit_l (1.2GB, GPU high-quality)"))
+
+        ok_any = False
+        for fname, url, desc in downloads:
+            model_path = models_dir / fname
+            if model_path.exists():
+                print(f"🤖 {fname} already exists")
+                ok_any = True
+                continue
+            print(f"🤖 Downloading {desc}...")
+            try:
+                if self.download_file(url, model_path, desc):
+                    print(f"   ✅ {fname} -> {model_path.absolute()}")
+                    ok_any = True
+                else:
+                    print(f"   ❌ Failed to download {fname}")
+            except Exception as e:
+                print(f"   ❌ Error downloading {fname}: {e}")
+        if not ok_any:
+            print("   ⚠️  No SAM model available; SWEET will run in fallback mode")
+        return ok_any
 
     def verify_installation(self):
         """Quick verification that installation completed"""
@@ -753,8 +754,8 @@ class SWEETInstaller:
             if not self.install_packages(has_gpu):
                 return False
             
-            # Download SAM model
-            self.download_sam_model()
+            # Download SAM model(s)
+            self.download_sam_model(has_gpu)
             
             # Verify installation
             self.verify_installation()

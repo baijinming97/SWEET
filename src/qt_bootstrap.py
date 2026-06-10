@@ -10,6 +10,14 @@ def configure_qt_plugins():
     if not sys.platform.startswith("win"):
         return
 
+    # Load torch's native DLLs BEFORE we prepend Qt's bin to PATH. Otherwise Qt's
+    # bundled runtime DLLs can shadow torch dependencies and make a later
+    # "import torch" fail with OSError (c10.dll load failure) on some Windows setups.
+    try:
+        import torch  # noqa: F401
+    except Exception:
+        pass
+
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
     qt_root = os.path.join(
         project_root,
