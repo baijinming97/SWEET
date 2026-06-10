@@ -1,377 +1,113 @@
-# SWEET - SAM Widget for Edge Evaluation Tool
+# SWEET — SAM Widget for Edge Evaluation Tool
 
-🎯 AI-powered image segmentation and area calculation using Segment Anything Model (SAM)
+SWEET is an interactive tool for segmenting objects in images and measuring their area, built on Meta's Segment Anything Model (SAM). Mark a few points, batch‑process a folder, and get mask overlays plus a CSV of area percentages. Designed for microscopy such as wound‑healing / cell‑migration (scratch) assays.
 
-[English](#english) | [中文](#chinese)
+English | [中文](#中文)
 
----
+## Install
 
-<a name="english"></a>
-## English Version
+1. Download or clone this repository.
+2. Run the one‑click installer — it sets up Python, dependencies, and the SAM model automatically:
+   - **Windows:** double‑click `install.bat`
+   - **macOS / Linux:** double‑click `install.command`
 
-### 📖 Overview
+No command line required.
 
-SWEET is an intelligent tool that helps you:
-1. **Segment objects** in images with just a few clicks
-2. **Calculate area percentages** of selected regions
-3. **Export results** for further analysis
+## Run
 
-Perfect for:
-- 🔬 Scientific research (microscopy analysis)
-- 🏗️ Engineering analysis  
-- 📸 Image processing
-- 📊 Data visualization
+- **Windows:** `SWEET_Windows.bat`
+- **macOS:** `SWEET_macOS.command`
+- **Linux:** `SWEET_Linux.sh`
 
-### 📥 Download
+Choose English or Chinese when prompted.
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
-</div>
+## Usage
 
-### Release Notes
+1. **Load Dir** — choose a folder of images (`.tif`).
+2. **Annotate** — left‑click adds a positive point (green, inside the target); right‑click adds a negative point (red, to exclude). Use **A / D** to move between images and mark each one.
+3. **Start Batch Segmentation** — processes every annotated image.
+4. **Results** — each image gets a `*_segmented.png` overlay, plus a `segmentation_results.csv` (area % + confidence) in the same folder.
 
-**Latest version:** SWEET v1.2
+**Shortcuts:** A / D = previous / next · C = clear points · Space = run batch.
 
-**Previous versions:** [v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1) · [v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+**Advanced Settings** (collapsible panel): contrast boost (CLAHE), fill debris inside the gap, edge/debris smoothing, and red‑point strength. SWEET automatically uses the higher‑quality `vit_l` model on an NVIDIA GPU and the faster `vit_b` model on CPU.
 
-SWEET v1.2 includes:
-- **Cross-platform robustness:** image read/write now works with non-ASCII paths and spaces in filenames (fixes silent failures on folders such as `D:\...\硕士\...`); robust segmented-output naming (`.tif/.tiff/.TIF`); fixed the macOS launcher (it called a non-existent script); more collision-resistant batch image hashing.
-- **Better masks on hard images:** optional CLAHE contrast normalisation before SAM, keep every wound piece that contains a positive point (not just the largest), and fill small cell debris inside the gap so debris counts as gap.
-- **Stronger, boundary-safe red (negative) points:** a red click removes the wrong region (pinched-off lobe + small adaptive disk) without eating the wound when placed on an edge.
-- **Adaptive model:** auto-uses the higher-quality `vit_l` on NVIDIA GPUs while keeping the fast `vit_b` CPU path; the installer fetches `vit_l` on GPU machines. Fixed a Windows torch/Qt DLL-order startup crash.
-- **Advanced Settings panel** (collapsible) to tune contrast, debris fill, edge smoothing, and red-point strength live.
+## Features
 
-SWEET v1.1 includes:
-- Windows startup fix for PyQt5/Qt platform plugin detection, including the common `qwindows.dll` startup error after moving or extracting the project folder.
-- Stronger red negative-point behavior: red points now help re-rank SAM candidate masks and hard-exclude a small area around each red point from the final mask.
-- No extra SAM inference is added; the new red-point logic only uses SAM's existing candidate masks plus a lightweight OpenCV cleanup step.
+- Point‑prompted segmentation (SAM) with one‑click batch processing
+- Area‑percentage export to CSV
+- Boundary‑safe negative points and debris‑aware masks
+- Automatic GPU (CUDA / Apple MPS) acceleration, CPU fallback
+- Cross‑platform (Windows / macOS / Linux), English & Chinese UI
+- Reads non‑ASCII paths and filenames with spaces
 
-Use v1.1 for new downloads. v1.0 remains available for reproducibility.
+## Requirements
 
-### 🚀 Quick Start
+Windows 10+ / macOS 10.15+ / Ubuntu 18.04+ · 8 GB RAM (16 GB recommended) · ~3 GB free disk. Python is installed automatically; an NVIDIA GPU is optional. Logs: `logs/sam_annotator.log`.
 
-#### Installation (One-Click Install)
+## Citation
 
-**Windows:**
-- Double-click `install.bat` ✅
+Image segmentation and area calculation were performed using SWEET [1], based on the Segment Anything Model (SAM) [2].
 
-**Linux/macOS:**
-- Double-click `install.command` ✅
+1. *SWEET: SAM Widget for Edge Evaluation Tool*, GitHub repository, 2025. https://github.com/baijinming97/SWEET
+2. A. Kirillov et al., "Segment Anything," ICCV 2023, pp. 4015–4026.
 
-The installer will automatically:
-- Detect your system
-- Install Python if needed
-- Configure GPU acceleration
-- Install all dependencies
-
-#### Running SWEET (One-Click Launch)
-
-**Windows:** Double-click `SWEET_Windows.bat` 🚀
-
-**Linux:** Double-click `SWEET_Linux.sh` 🚀
-
-**macOS:** Double-click `SWEET_macOS.command` 🚀
-
-### 📋 Usage Tutorial
-
-#### Step 1: Load Images
-- Click **"Load Dir"** button
-- Select a folder containing your images
-- Images will be loaded automatically
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1600" alt="Load Images">
-</div>
-
-#### Step 2: Annotate Objects
-- **Left Click** 🖱️ - Add positive points (green) to mark objects
-- **Right Click** 🖱️ - Add negative points (red) to exclude areas
-- The annotation count will update in real-time
-
-#### Step 3: Batch Process
-- Click **"Start Batch Segmentation"** 🚀
-- SWEET will process all images in the folder
-- Progress will be shown during processing
-
-<div align="left">
-  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="Batch Process">
-</div>
-
-#### Step 4: View Results
-- **Segmentation Images**: Masked overlay images saved in the same directory
-  - Original images with green segmentation masks
-  - Use for accuracy verification or paper figures
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="500" alt="Result 1">
-  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="500" alt="Result 2">
-</div>
-
-- **CSV Results**: `segmentation_results.csv` file containing:
-  - Image names
-  - Coverage percentage (area ratio)
-  - Confidence scores
-  - Annotation point counts
-
-
-
-#### Example Output
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/b4599776-2b7f-43b1-8d97-2288cf4038da" width="60" alt="CSV View">  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
-</div>
-
-#### ⚙️ Advanced Settings (optional)
-Click **"⚙️ Advanced Settings"** in the right panel to fine-tune — changes apply on the next batch run:
-- **Contrast boost (CLAHE)** — helps low-contrast / grayscale images (default: on).
-- **Fill debris inside wound** — counts small cell debris in the gap as gap instead of carving around it (default: on).
-- **Edge / debris smoothing** — Light / Standard / Strong: how much small edge notches are smoothed.
-- **Red-point strength** — Gentle / Medium / Strong: how aggressively a right-click removes a wrong region.
-
-SWEET automatically uses the higher-quality `vit_l` model on NVIDIA GPUs and the fast `vit_b` model on CPU.
-
-### 🎮 Keyboard Shortcuts
-- **Space**: Generate mask
-- **S**: Save comparison image
-- **A/D**: Previous/Next image
-- **C**: Clear annotations
-
-### 💡 Features
-
-- 🎯 **Smart Segmentation** - AI-powered object detection
-- 📊 **Area Calculation** - Precise percentage calculations
-- 🔥 **GPU Acceleration** - NVIDIA CUDA & Apple Silicon support
-- 🖼️ **Batch Processing** - Process entire folders at once
-- 📈 **Export Results** - CSV files for data analysis
-- 🌐 **Multi-language** - English/Chinese support
-
-- #### 🎯 Precision Mode
-- ⚡**Default Mode**  - Images are resized for faster processing (usually sufficient for most cases)
-- 🔬**Precision Mode**  - Uses original full resolution for maximum accuracy (slower but more precise)
-
-### 💻 System Requirements
-
-- **OS:** Windows 10+, Ubuntu 18.04+, macOS 10.15+
-- **RAM:** 8GB minimum (16GB recommended)
-- **GPU:** NVIDIA GPU with CUDA (optional) or Apple Silicon
-- **Storage:** 2-4GB free space
-- **Python:** 3.8+ (auto-installed if missing)
-
-### 🔧 Troubleshooting
-
-- 🐛 **Issues?** Check `logs/sam_annotator_debug.log`
-- 💡 **GPU not detected?** Install latest NVIDIA/AMD drivers
-- 🔧 **Windows error?** Install [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-- 📂 **Permission denied?** Right-click → Run as Administrator
-
-
-
-### 📚 How to Cite
-
-### Citation in Methods Section
-
-Image segmentation and area calculation were performed using SWEET v1.1 [1], an open-source tool based on the Segment Anything Model (SAM) [2]. The software enables automated batch segmentation through interactive point annotations and calculates the percentage of segmented regions relative to the total image area.
-
-#### References
-[1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
-
-[2] A. Kirillov et al., "Segment Anything," in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 4015-4026.
-
+See [Releases](https://github.com/baijinming97/SWEET/releases) for version history.
 
 ---
 
-<a name="chinese"></a>
-## 中文版本
+<a name="中文"></a>
 
-### 📖 概述
+# 中文
 
-SWEET 是一个智能工具，帮助您：
-1. **分割图像中的对象** - 只需几次点击
-2. **计算区域百分比** - 精确计算选定区域占比
-3. **导出分析结果** - 便于进一步研究
+SWEET 是一个交互式图像分割与面积测量工具，基于 Meta 的 Segment Anything Model (SAM)。标注几个点、批量处理整个文件夹，即可得到分割叠加图和面积百分比的 CSV。适用于划痕 / 细胞迁移等显微图像分析。
 
-适用于：
-- 🔬 科学研究（显微镜图像分析）
-- 🏗️ 工程分析
-- 📸 图像处理
-- 📊 数据可视化
+## 安装
 
-### 📥 下载
+1. 下载或克隆本仓库。
+2. 运行一键安装器（自动配置 Python、依赖和 SAM 模型）：
+   - **Windows：** 双击 `install.bat`
+   - **macOS / Linux：** 双击 `install.command`
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1600" alt="Download SWEET">
-</div>
+无需命令行。
 
-### 版本说明
+## 运行
 
-**最新版:** SWEET v1.2
+- **Windows：** `SWEET_Windows.bat`
+- **macOS：** `SWEET_macOS.command`
+- **Linux：** `SWEET_Linux.sh`
 
-**旧版:** [v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1) · [v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+启动时选择中文或英文。
 
-SWEET v1.2 更新内容:
-- **跨平台健壮性：** 图像读写支持非 ASCII 路径与含空格文件名（修复 `D:\...\硕士\...` 这类目录下静默读不出图的问题）；分割结果文件名更稳健（支持 `.tif/.tiff/.TIF`）；修复 macOS 启动器调用了不存在脚本的 bug；批处理图像哈希更不易碰撞。
-- **难图分割改进：** SAM 前可选 CLAHE 对比增强；保留所有"含正向点"的连通块（不再只留最大块）；填充裂缝内的小细胞碎片，使碎片计入裂缝面积。
-- **更强且边界安全的红色（负向）点：** 红点会删除错误区域（被掐断的瓣块 + 小自适应圆），但放在边界上时不会误删伤口。
-- **自适应模型：** 检测到 NVIDIA GPU 时自动使用更高质量的 `vit_l`，无 GPU 时保持 `vit_b` 快路径；安装器在 GPU 机器上自动下载 `vit_l`。修复 Windows 下 torch/Qt 的 DLL 加载顺序导致的启动崩溃。
-- 新增可折叠的**高级设置**面板，可实时调整对比增强、碎片填充、边缘平滑与红点强度。
+## 使用
 
-SWEET v1.1 更新内容:
-- 修复 Windows 下 PyQt5/Qt 平台插件路径识别问题，包括项目移动或解压到新目录后常见的 `qwindows.dll` 启动报错。
-- 增强红色负向点逻辑: 红点现在会参与 SAM 候选 mask 的重新评分，并在最终 mask 中强制排除红点周围的小区域。
-- 不会额外增加 SAM 推理次数；新增逻辑只使用 SAM 已返回的候选 mask，并做一次轻量 OpenCV mask 清理。
+1. **Load Dir** —— 选择图像文件夹（`.tif`）。
+2. **标注** —— 左键加正向点（绿色，标在目标内部），右键加负向点（红色，排除区域）。用 **A / D** 切换图像，逐张标注。
+3. **Start Batch Segmentation** —— 对所有已标注图像批量分割。
+4. **结果** —— 每张图生成 `*_segmented.png` 叠加图，并在同目录输出 `segmentation_results.csv`（面积 % + 置信度）。
 
-新下载建议使用 v1.1。v1.0 仍保留，便于复现实验或回退。
+**快捷键：** A / D = 上一张 / 下一张 · C = 清除标注 · Space = 批量分割。
 
-### 🚀 快速开始
+**高级设置**（可折叠面板）：对比增强 (CLAHE)、填充裂缝内碎片、边缘 / 碎片平滑、红点强度。SWEET 会在 NVIDIA GPU 上自动使用更高质量的 `vit_l`，无 GPU 时使用更快的 `vit_b`。
 
-#### 安装（一键安装）
+## 功能
 
-**Windows系统:**
-- 双击 `install.bat` ✅
+- 基于点提示的 SAM 分割，一键批量处理
+- 面积百分比导出 CSV
+- 边界安全的负向点、碎片感知的分割
+- 自动 GPU（CUDA / Apple MPS）加速，无 GPU 时回退 CPU
+- 跨平台（Windows / macOS / Linux），中英文界面
+- 支持非 ASCII 路径与含空格文件名
 
-**Linux/macOS系统:**
-- 双击 `install.command` ✅
+## 系统要求
 
-安装程序将自动：
-- 检测您的系统
-- 安装所需的Python
-- 配置GPU加速
-- 安装所有依赖项
+Windows 10+ / macOS 10.15+ / Ubuntu 18.04+ · 内存 8 GB（推荐 16 GB）· 可用磁盘约 3 GB。Python 自动安装；NVIDIA GPU 可选。日志：`logs/sam_annotator.log`。
 
-#### 运行SWEET（一键启动）
+## 引用
 
-**Windows:** 双击 `SWEET_Windows.bat` 🚀
+图像分割和面积计算使用 SWEET [1] 完成，基于 Segment Anything Model (SAM) [2]。
 
-**Linux:** 双击 `SWEET_Linux.sh` 🚀
+1. *SWEET: SAM Widget for Edge Evaluation Tool*, GitHub, 2025. https://github.com/baijinming97/SWEET
+2. A. Kirillov et al., "Segment Anything," ICCV 2023, pp. 4015–4026.
 
-**macOS:** 双击 `SWEET_macOS.command` 🚀
-
-### 📋 使用教程
-
-#### 步骤1：加载图像
-- 点击 **"Load Dir"（加载目录）** 按钮
-- 选择包含图像的文件夹
-- 图像将自动加载
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1600" alt="Load Images">
-</div>
-
-#### 步骤2：标注对象
-- **鼠标左键** 🖱️ - 添加正向标注点（绿色）标记目标对象
-- **鼠标右键** 🖱️ - 添加负向标注点（红色）排除区域
-- 标注计数会实时更新显示
-
-#### 步骤3：批量处理
-- 点击 **"Start Batch Segmentation"（开始批量分割）** 🚀
-- SWEET将处理文件夹中的所有图像
-- 处理过程中会显示进度
-
-<div align="left">
-  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="Batch Process">
-</div>
-
-#### 步骤4：查看结果
-- **分割图像**：在同一目录下保存掩码叠加图像
-  - 原始图像上叠加绿色分割掩码
-  - 可用于准确性验证或论文配图
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="500" alt="Result 1">
-  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="500" alt="Result 2">
-</div>
-
-- **CSV结果**：生成 `segmentation_results.csv` 文件，包含：
-  - 图像名称
-  - 覆盖百分比（面积比）
-  - 置信度分数
-  - 标注点数量
-
-
-#### 输出示例
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/b4599776-2b7f-43b1-8d97-2288cf4038da" width="60" alt="CSV View">  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
-</div>
-
-
-
-#### ⚙️ 高级设置（可选）
-点击右侧面板的 **"⚙️ 高级设置"** 进行微调，参数在下次批量分割时生效：
-- **对比增强 (CLAHE)** —— 改善低对比/灰度图像（默认开启）。
-- **填充裂缝内碎片** —— 把裂缝内的小细胞碎片计入裂缝，而不是绕着它分割（默认开启）。
-- **边缘 / 碎片平滑** —— 轻 / 标准 / 强：边缘小缺口的平滑程度。
-- **红点强度** —— 弱 / 中 / 强：右键删除错误区域的力度。
-
-SWEET 会在 NVIDIA GPU 上自动使用更高质量的 `vit_l` 模型，无 GPU 时使用快速的 `vit_b` 模型。
-
-### 🎮 快捷键
-- **空格键**: 生成掩码
-- **S**: 保存对比图像
-- **A/D**: 上一张/下一张图像
-- **C**: 清除标注
-
-### 💡 功能特点
-
-- 🎯 **智能分割** - AI驱动的对象检测
-- 📊 **面积计算** - 精确的百分比计算
-- 🔥 **GPU加速** - 支持NVIDIA CUDA和Apple Silicon
-- 🖼️ **批量处理** - 一次处理整个文件夹
-- 📈 **导出结果** - CSV文件便于数据分析
-- 🌐 **多语言支持** - 中英文界面
-
-- #### 🎯 精确模式
-- ⚡**默认模式**  - 图像会被压缩以加快处理速度（通常精度已经足够）
-- 🔬**精确模式**  - 使用原始完整分辨率以获得最高精度（速度较慢但更精确）
-
-### 💻 系统要求
-
-- **操作系统:** Windows 10+、Ubuntu 18.04+、macOS 10.15+
-- **内存:** 最低8GB（推荐16GB）
-- **显卡:** NVIDIA GPU（可选）或Apple Silicon
-- **存储空间:** 2-4GB可用空间
-- **Python:** 3.8+（如果缺失会自动安装）
-
-### 🔧 故障排除
-
-- 🐛 **遇到问题？** 查看 `logs/sam_annotator_debug.log`
-- 💡 **GPU未检测到？** 安装最新的NVIDIA/AMD驱动
-- 🔧 **Windows错误？** 安装 [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-- 📂 **权限拒绝？** 右键 → 以管理员身份运行
-
-### 📁 文件结构
-
-```
-SWEET/
-├── install.bat          # Windows安装器（双击）
-├── install.command      # Linux/macOS安装器（双击）
-├── install.py           # 核心安装脚本
-├── SWEET_Windows.bat    # Windows启动器（双击）
-├── SWEET_Linux.sh       # Linux启动器（双击）
-├── SWEET_macOS.command  # macOS启动器（双击）
-├── src/                 # 源代码
-├── python/              # 虚拟环境（自动创建）
-├── models/              # AI模型（自动下载）
-└── logs/                # 调试日志
-```
-
-### 🚫 无需命令行！
-
-所有操作都可通过双击完成：
-- ✅ 双击安装器进行安装
-- ✅ 双击启动器运行程序
-- ✅ 无需终端或命令提示符
-
-
-### 📚 如何引用
-
-### 方法部分引用
-
-图像分割和面积计算使用SWEET v1.1 [1]完成，该工具基于Segment Anything Model (SAM) [2]。软件通过交互式标注点实现自动批量分割，并计算分割区域占图像总面积的百分比。
-
-#### 参考文献
-[1] "SWEET: SAM Widget for Edge Evaluation Tool," GitHub repository, 2025. [Online]. Available: https://github.com/baijinming97/SWEET
-
-[2] A. Kirillov et al., "Segment Anything," in Proc. IEEE/CVF Int. Conf. Comput. Vis. (ICCV), 2023, pp. 4015-4026.
-
----
-
-**SWEET v1.1** - Making AI segmentation accessible to everyone 🎉
+版本历史见 [Releases](https://github.com/baijinming97/SWEET/releases)。
