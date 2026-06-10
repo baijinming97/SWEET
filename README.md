@@ -4,6 +4,10 @@ SWEET is an interactive tool for segmenting objects in images and measuring thei
 
 English | [中文](#中文)
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/fb4db1a6-fd7b-4341-8c54-443052f3cc44" width="1000" alt="Download SWEET">
+</div>
+
 ## Install
 
 1. Download or clone this repository.
@@ -23,10 +27,28 @@ Choose English or Chinese when prompted.
 
 ## Usage
 
-1. **Load Dir** — choose a folder of images (`.tif`).
-2. **Annotate** — left‑click adds a positive point (green, inside the target); right‑click adds a negative point (red, to exclude). Use **A / D** to move between images and mark each one.
-3. **Start Batch Segmentation** — processes every annotated image.
-4. **Results** — each image gets a `*_segmented.png` overlay, plus a `segmentation_results.csv` (area % + confidence) in the same folder.
+**1. Load Dir** — choose a folder of images (`.tif`).
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1000" alt="Load Images">
+</div>
+
+**2. Annotate** — left‑click adds a positive point (green, inside the target); right‑click adds a negative point (red, to exclude). Use **A / D** to move between images and mark each one.
+
+**3. Start Batch Segmentation** — processes every annotated image.
+
+<div align="left">
+  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="Batch Process">
+</div>
+
+**4. Results** — each image gets a `*_segmented.png` overlay, plus a `segmentation_results.csv` (area % + confidence) in the same folder.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="420" alt="Result 1">
+  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="420" alt="Result 2">
+  <br>
+  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV Data">
+</div>
 
 **Shortcuts:** A / D = previous / next · C = clear points · Space = run batch.
 
@@ -81,10 +103,28 @@ SWEET 是一个交互式图像分割与面积测量工具，基于 Meta 的 Segm
 
 ## 使用
 
-1. **Load Dir** —— 选择图像文件夹（`.tif`）。
-2. **标注** —— 左键加正向点（绿色，标在目标内部），右键加负向点（红色，排除区域）。用 **A / D** 切换图像，逐张标注。
-3. **Start Batch Segmentation** —— 对所有已标注图像批量分割。
-4. **结果** —— 每张图生成 `*_segmented.png` 叠加图，并在同目录输出 `segmentation_results.csv`（面积 % + 置信度）。
+**1. Load Dir** —— 选择图像文件夹（`.tif`）。
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/7512258f-545a-4948-ac34-2852ad22bc17" width="1000" alt="加载图像">
+</div>
+
+**2. 标注** —— 左键加正向点（绿色，标在目标内部），右键加负向点（红色，排除区域）。用 **A / D** 切换图像，逐张标注。
+
+**3. Start Batch Segmentation** —— 对所有已标注图像批量分割。
+
+<div align="left">
+  <img src="https://github.com/user-attachments/assets/72bc2483-eae7-4e9e-8a72-b8b83e1b557c" width="300" alt="批量处理">
+</div>
+
+**4. 结果** —— 每张图生成 `*_segmented.png` 叠加图，并在同目录输出 `segmentation_results.csv`（面积 % + 置信度）。
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9bdce82a-2ed0-4a8e-a3e3-abd3c1021c86" width="420" alt="结果 1">
+  <img src="https://github.com/user-attachments/assets/44a46c32-aefe-48af-a5d1-fb2f48a4d142" width="420" alt="结果 2">
+  <br>
+  <img src="https://github.com/user-attachments/assets/f62ff47d-1449-4ad3-97be-fbf158b9ff45" width="600" alt="CSV 数据">
+</div>
 
 **快捷键：** A / D = 上一张 / 下一张 · C = 清除标注 · Space = 批量分割。
 
