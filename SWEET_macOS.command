@@ -58,7 +58,7 @@ case $choice in
     2)
         echo
         echo "🚀 启动中文版SWEET..."
-        python/bin/python src/sam_annotator_debug.py
+        python/bin/python src/sam_annotator_chinese.py
         ;;
     *)
         echo

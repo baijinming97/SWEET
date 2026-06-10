@@ -1,0 +1,27 @@
+# Python virtual environment (created by install.py)
+python/
+
+# Downloaded SAM model weights (fetched by the installer)
+models/
+
+# Logs
+logs/
+*.log
+
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+
+# Installer metadata
+sweet_install.json
+
+# Local benchmark / research data and generated results (do NOT publish)
+data/bench/
+
+# Segmentation outputs written next to source images
+*_segmented.png
+*_comparison.png
+segmentation_results*.csv
+
+# Local dev helpers
+.pypath

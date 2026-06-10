@@ -30,9 +30,16 @@ Perfect for:
 
 ### Release Notes
 
-**Latest version:** [SWEET v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1)
+**Latest version:** SWEET v1.2
 
-**Previous version:** [SWEET v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+**Previous versions:** [v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1) · [v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+
+SWEET v1.2 includes:
+- **Cross-platform robustness:** image read/write now works with non-ASCII paths and spaces in filenames (fixes silent failures on folders such as `D:\...\硕士\...`); robust segmented-output naming (`.tif/.tiff/.TIF`); fixed the macOS launcher (it called a non-existent script); more collision-resistant batch image hashing.
+- **Better masks on hard images:** optional CLAHE contrast normalisation before SAM, keep every wound piece that contains a positive point (not just the largest), and fill small cell debris inside the gap so debris counts as gap.
+- **Stronger, boundary-safe red (negative) points:** a red click removes the wrong region (pinched-off lobe + small adaptive disk) without eating the wound when placed on an edge.
+- **Adaptive model:** auto-uses the higher-quality `vit_l` on NVIDIA GPUs while keeping the fast `vit_b` CPU path; the installer fetches `vit_l` on GPU machines. Fixed a Windows torch/Qt DLL-order startup crash.
+- **Advanced Settings panel** (collapsible) to tune contrast, debris fill, edge smoothing, and red-point strength live.
 
 SWEET v1.1 includes:
 - Windows startup fix for PyQt5/Qt platform plugin detection, including the common `qwindows.dll` startup error after moving or extracting the project folder.
@@ -187,9 +194,16 @@ SWEET 是一个智能工具，帮助您：
 
 ### 版本说明
 
-**最新版:** [SWEET v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1)
+**最新版:** SWEET v1.2
 
-**旧版:** [SWEET v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+**旧版:** [v1.1](https://github.com/baijinming97/SWEET/releases/tag/v1.1) · [v1.0](https://github.com/baijinming97/SWEET/releases/tag/v1.0)
+
+SWEET v1.2 更新内容:
+- **跨平台健壮性：** 图像读写支持非 ASCII 路径与含空格文件名（修复 `D:\...\硕士\...` 这类目录下静默读不出图的问题）；分割结果文件名更稳健（支持 `.tif/.tiff/.TIF`）；修复 macOS 启动器调用了不存在脚本的 bug；批处理图像哈希更不易碰撞。
+- **难图分割改进：** SAM 前可选 CLAHE 对比增强；保留所有"含正向点"的连通块（不再只留最大块）；填充裂缝内的小细胞碎片，使碎片计入裂缝面积。
+- **更强且边界安全的红色（负向）点：** 红点会删除错误区域（被掐断的瓣块 + 小自适应圆），但放在边界上时不会误删伤口。
+- **自适应模型：** 检测到 NVIDIA GPU 时自动使用更高质量的 `vit_l`，无 GPU 时保持 `vit_b` 快路径；安装器在 GPU 机器上自动下载 `vit_l`。修复 Windows 下 torch/Qt 的 DLL 加载顺序导致的启动崩溃。
+- 新增可折叠的**高级设置**面板，可实时调整对比增强、碎片填充、边缘平滑与红点强度。
 
 SWEET v1.1 更新内容:
 - 修复 Windows 下 PyQt5/Qt 平台插件路径识别问题，包括项目移动或解压到新目录后常见的 `qwindows.dll` 启动报错。

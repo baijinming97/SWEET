@@ -10,9 +10,11 @@ from qt_bootstrap import configure_qt_plugins
 configure_qt_plugins()
 
 from mask_prompt_utils import apply_negative_point_exclusions, rank_prompt_masks
+import sam_core
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QHBoxLayout, QPushButton, QLabel, QFileDialog,
-                             QMessageBox, QProgressBar, QProgressDialog, QDialog)
+                             QMessageBox, QProgressBar, QProgressDialog, QDialog,
+                             QCheckBox, QComboBox)
 from PyQt5.QtCore import Qt, QPoint, pyqtSignal, QTimer, QThread, pyqtSlot
 from PyQt5.QtGui import QPixmap, QPainter, QPen, QColor, QImage, QKeyEvent
 import cv2
@@ -120,11 +122,12 @@ class BatchSegmentationDialog(QDialog):
         else:
             self.time_label.setText("Estimated remaining time: Calculating...")
 
-# Import SAM dependencies from utils
+# Import SAM dependencies (segment_anything directly + shared helpers; avoids heavy utils.py deps)
 try:
     logger.info("Starting to load SAM dependencies...")
     start_time = time.time()
-    from utils import sam_model_registry, SamPredictor, largest_component, label_to_color_image
+    from segment_anything import sam_model_registry, SamPredictor
+    from sam_core import largest_component, label_to_color_image
     import torch
     SAM_AVAILABLE = True
     logger.info(f"SAM dependencies loaded successfully, time taken: {time.time() - start_time:.2f} seconds")
@@ -191,11 +194,7 @@ class SAMModelWrapper:
                 # Create fast hash using image shape and pixel values from four corners
                 quick_hash = (
                     image.shape,
-                    tuple(image[0, 0]),  # Top-left corner
-                    tuple(image[0, -1]),  # Top-right corner
-                    tuple(image[-1, 0]),  # Bottom-left corner
-                    tuple(image[-1, -1]),  # Bottom-right corner
-                    image[image.shape[0]//2, image.shape[1]//2].tobytes()  # Center point
+                    cv2.resize(image, (16, 16), interpolation=cv2.INTER_AREA).tobytes(),  # global thumbnail (collision-safe vs corner-only hash)
                 )
                 image_hash = hash(quick_hash)
                 hash_time = time.time() - hash_start
@@ -216,7 +215,11 @@ class SAMModelWrapper:
                     if len(image.shape) != 3 or image.shape[2] != 3:
                         logger.error(f"Invalid image shape: {image.shape}, expected (H, W, 3)")
                         return False
-                    
+
+                    # SWEET+: CLAHE local-contrast normalisation before SAM (helps low-contrast images)
+                    if getattr(self, 'use_clahe', True):
+                        image = sam_core.clahe_rgb(image)
+
                     # Decide scaling based on precise mode
                     if self.precise_mode or self.max_dimension is None:
                         # Precise mode: use original image
@@ -307,24 +310,27 @@ class SAMModelWrapper:
                     best_mask_idx,
                 )
             
-            # Apply largest connected component filtering
+            # If image was scaled, resize mask back to original size FIRST (only compressed mode)
+            if hasattr(self, 'scale_factor') and self.scale_factor != 1.0 and not self.precise_mode and hasattr(self, 'original_size'):
+                h, w = self.original_size
+                best_mask = cv2.resize(best_mask.astype(np.uint8), (w, h),
+                                       interpolation=cv2.INTER_NEAREST).astype(bool)
+
+            # SWEET+: keep every wound piece touching a green point + boundary-safe red points + gentle cleanup
+            # (replaces largest-component-only + small-disk negative). Runs at original resolution.
             if SAM_AVAILABLE:
                 try:
-                    best_mask = largest_component(best_mask).astype(bool)
+                    _opts = getattr(self, 'seg_opts', {})
+                    best_mask = sam_core.finalize_mask(
+                        (best_mask.astype(np.uint8) * 255),
+                        positive_points, negative_points,
+                        fill_debris=_opts.get('fill_debris', True),
+                        close_k=_opts.get('close_k', 15),
+                        neg_ratio=_opts.get('neg_ratio', 0.02)) > 0
                 except Exception as e:
-                    logger.warning(f"Largest connected component processing failed: {e}")
-            
-            # If image was scaled, need to resize mask back to original size (only in compressed mode)
-            if hasattr(self, 'scale_factor') and self.scale_factor != 1.0 and not self.precise_mode and hasattr(self, 'original_size'):
-                resize_start = time.time()
-                h, w = self.original_size
-                best_mask_resized = cv2.resize(best_mask.astype(np.uint8), (w, h), 
-                                              interpolation=cv2.INTER_NEAREST)
-                resize_time = time.time() - resize_start
-                logger.debug(f"Mask resize time: {resize_time:.3f} seconds")
-                best_mask = best_mask_resized.astype(bool)
-
-            best_mask = apply_negative_point_exclusions(best_mask, negative_points)
+                    logger.warning(f"finalize_mask failed, falling back: {e}")
+                    best_mask = largest_component(best_mask).astype(bool)
+                    best_mask = apply_negative_point_exclusions(best_mask, negative_points)
 
             predict_time = time.time() - start_time
             logger.info(f"SAM prediction completed, time taken: {predict_time:.3f} seconds, confidence: {best_score:.3f}")
@@ -387,7 +393,7 @@ class FastImageLabel(QLabel):
         # Load image
         try:
             load_start = time.time()
-            self.original_image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+            self.original_image = sam_core.imread_unicode(image_path, cv2.IMREAD_COLOR)
             if self.original_image is None:
                 logger.error(f"Unable to read image: {image_path}")
                 return False
@@ -840,7 +846,56 @@ class WoundAnnotatorUI(QMainWindow):
             font-size: 16px; padding: 15px;
         """)
         right_panel.addWidget(self.batch_segment_button)
-        
+
+        # ----- Advanced settings (collapsible) -----
+        self.adv_toggle = QPushButton("⚙️ Advanced Settings ▸")
+        self.adv_toggle.setStyleSheet(button_style + "background-color: #34495e; border-color: #2c3e50;")
+        self.adv_toggle.clicked.connect(self.toggle_advanced)
+        right_panel.addWidget(self.adv_toggle)
+
+        self.adv_panel = QWidget()
+        self.adv_panel.setStyleSheet("background-color:#ecf0f1; border:1px solid #bdc3c7; border-radius:6px;")
+        adv_layout = QVBoxLayout(self.adv_panel)
+        adv_layout.setContentsMargins(10, 8, 10, 8)
+        adv_layout.setSpacing(6)
+        _lbl_css = "color:#2c3e50; font-size:12px; font-weight:bold; border:none;"
+        _ctl_css = "color:#2c3e50; font-size:12px; border:none;"
+
+        self.cb_clahe = QCheckBox("Contrast boost (CLAHE)")
+        self.cb_clahe.setChecked(True)
+        self.cb_clahe.setStyleSheet(_ctl_css)
+        adv_layout.addWidget(self.cb_clahe)
+
+        self.cb_fill = QCheckBox("Fill debris inside wound")
+        self.cb_fill.setChecked(True)
+        self.cb_fill.setStyleSheet(_ctl_css)
+        adv_layout.addWidget(self.cb_fill)
+
+        _l1 = QLabel("Edge / debris smoothing")
+        _l1.setStyleSheet(_lbl_css)
+        adv_layout.addWidget(_l1)
+        self.cmb_smooth = QComboBox()
+        self.cmb_smooth.addItems(["Light", "Standard", "Strong"])
+        self.cmb_smooth.setCurrentIndex(1)
+        self.cmb_smooth.setStyleSheet(_ctl_css)
+        adv_layout.addWidget(self.cmb_smooth)
+
+        _l2 = QLabel("Red-point strength")
+        _l2.setStyleSheet(_lbl_css)
+        adv_layout.addWidget(_l2)
+        self.cmb_neg = QComboBox()
+        self.cmb_neg.addItems(["Gentle", "Medium", "Strong"])
+        self.cmb_neg.setCurrentIndex(1)
+        self.cmb_neg.setStyleSheet(_ctl_css)
+        adv_layout.addWidget(self.cmb_neg)
+
+        for _w in (self.cb_clahe, self.cb_fill, self.cmb_smooth, self.cmb_neg):
+            _w.setFocusPolicy(Qt.NoFocus)
+
+        self.adv_panel.setVisible(False)
+        right_panel.addWidget(self.adv_panel)
+        # -------------------------------------------
+
         right_panel.addStretch()
         
         # Add right panel
@@ -900,7 +955,24 @@ class WoundAnnotatorUI(QMainWindow):
                 }
             """)
             # Switched to precise mode
-    
+
+    def toggle_advanced(self):
+        """Show/hide the collapsible Advanced Settings panel"""
+        vis = not self.adv_panel.isVisible()
+        self.adv_panel.setVisible(vis)
+        self.adv_toggle.setText("⚙️ Advanced Settings ▾" if vis else "⚙️ Advanced Settings ▸")
+
+    def get_seg_opts(self):
+        """Read Advanced Settings into the dict consumed by the segmentation pipeline"""
+        close_k = (9, 15, 29)[self.cmb_smooth.currentIndex()]
+        neg_ratio = (0.012, 0.02, 0.035)[self.cmb_neg.currentIndex()]
+        return {
+            'use_clahe': self.cb_clahe.isChecked(),
+            'fill_debris': self.cb_fill.isChecked(),
+            'close_k': close_k,
+            'neg_ratio': neg_ratio,
+        }
+
     def auto_save_current_points(self):
         """Auto-save current image annotation points (silent save, no prompt)"""
         if not self.current_image_path:
@@ -978,7 +1050,7 @@ class WoundAnnotatorUI(QMainWindow):
         if self.image_annotations:
             # Check if any segmentation has been done
             has_segmented = any(
-                os.path.exists(img_path.replace('.tif', '_segmented.png'))
+                os.path.exists(sam_core.segmented_path(img_path))
                 for img_path in self.image_annotations.keys()
             )
             
@@ -1129,16 +1201,24 @@ class WoundAnnotatorUI(QMainWindow):
             QApplication.processEvents()
             
             try:
-                self.image_label.sam_predictor = SAMModelWrapper(self.image_label.sam_model_path)
+                model_path, model_type = sam_core.select_model_path("models")
+                self.image_label.sam_predictor = SAMModelWrapper(model_path)
                 # Set precise mode
                 self.image_label.sam_predictor.precise_mode = self.precise_mode
                 self.image_label.sam_predictor.max_dimension = None if self.precise_mode else 512
-                    
-                logger.info(f"SAM model loaded, precise mode: {'ON' if self.precise_mode else 'OFF'}")
+
+                logger.info(f"SAM model loaded: {model_type} ({model_path}), precise mode: {'ON' if self.precise_mode else 'OFF'}")
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"SAM model loading failed: {str(e)}")
                 return
-        
+
+        # Apply Advanced Settings each run (panel is read live)
+        if self.image_label.sam_predictor is not None:
+            opts = self.get_seg_opts()
+            self.image_label.sam_predictor.use_clahe = opts['use_clahe']
+            self.image_label.sam_predictor.seg_opts = opts
+            logger.info(f"Segmentation options: {opts}")
+
         # Create progress dialog
         progress_dialog = BatchSegmentationDialog(self)
         progress_dialog.show()
@@ -1189,7 +1269,7 @@ class WoundAnnotatorUI(QMainWindow):
             logger.info(f"Processing image: {os.path.basename(image_path)}")
             
             # Load image
-            image = cv2.imread(image_path)
+            image = sam_core.imread_unicode(image_path)
             if image is None:
                 logger.error(f"Unable to read image: {image_path}")
                 return None
@@ -1247,8 +1327,8 @@ class WoundAnnotatorUI(QMainWindow):
             result[mask_area] = (1 - alpha) * result[mask_area] + alpha * color_mask[mask_area]
             
             # Save
-            output_path = image_path.replace('.tif', '_segmented.png')
-            cv2.imwrite(output_path, cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
+            output_path = sam_core.segmented_path(image_path)
+            sam_core.imwrite_unicode(output_path, cv2.cvtColor(result, cv2.COLOR_RGB2BGR))
             logger.debug(f"Save segmentation result: {output_path}")
             
         except Exception as e:
@@ -1335,7 +1415,7 @@ class WoundAnnotatorUI(QMainWindow):
             
             # Save comparison image
             comparison_bgr = cv2.cvtColor(comparison, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(comparison_path, comparison_bgr)
+            sam_core.imwrite_unicode(comparison_path, comparison_bgr)
             
             # Save result data
             image_name = os.path.basename(self.current_image_path)
